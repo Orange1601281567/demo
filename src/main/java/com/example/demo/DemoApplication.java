@@ -17,6 +17,7 @@ public class DemoApplication {
                 " http://www.edu.gov.cn \n" +
 
                 "--------------------------------------  ");
+        System.out.println("我很开心 ");
     }
 
 }
