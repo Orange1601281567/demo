@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>changeImage</title>
+    <link th:href="@{/layui/css/layui.css}" rel="stylesheet" />
+    <link th:href="@{/layui/css/modules/laydate/default/laydate.css}" rel="stylesheet" />
+    <link th:href="@{/layui/css/modules/layer/default/layer.css}" rel="stylesheet" />
+    <link th:href="@{/layui/css/modules/code.css}" rel="stylesheet" />
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script type="text/javascript" th:src="@{/jquery/jquery-1.11.3.min.js}"></script>
+    <script type="text/javascript"  th:src="@{/js/bootstrap.min.js}"></script>
+    <script type="text/javascript"  th:src="@{/layui/layui.js}"></script>
+    <script type="text/javascript"  th:src="@{/layui/lay/modules/form.js}"></script>
+    <script type="text/javascript"  th:src="@{/layui/lay/modules/layer.js}"></script>
+</head>
+<body>
+<!--头像框-->
+<div  id="face1" tabindex="-1" role="dialog"class="text-center">
+    <div role="document" class="text-center">
+        <div class="container-fluid form-inline text-center">
+            <img id="img0" th:src="${user.face}" class="img-circle touxiang user-span text-center"style="width: 80px;height: 80px"/>
+            <input type="file" name="file" id="input_file" accept="image/gif,image/jpeg,image/jpg,image/png,image/svg"
+                   imgPreview(this)>
+            <button type="button" class="btn btn-info" id="changeface">确认修改</button>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    //遍历图片的地址
+    $("#input_file").change(function () {
+        var objUrl = getObjectURL(this.files[0]);//获取文件信息
+        console.log("objUrl = " + objUrl);
+        if (objUrl) {
+            $("#img0").attr("src", objUrl);
+        }
+    });
+
+    //获取输入的文件信息
+    function getObjectURL(file) {
+        var url = "@{/}"+"{user.face}";
+        if (window.createObjectURL != undefined) {
+            url = window.createObjectURL(file);
+        } else if (window.URL != undefined) { // mozilla(firefox)
+            url = window.URL.createObjectURL(file);
+        } else if (window.webkitURL != undefined) { // webkit or chrome
+            url = window.webkitURL.createObjectURL(file);
+        }
+        return url;
+    }
+
+    //提交修改信息
+    $("#changeface").click(function () {
+        prefix=ctx;
+        var formData = new FormData();
+        var userid= "[[${user.userid}]]";
+        formData.append('file', $('#input_file')[0].files[0]);  //添加图片信息的参数
+        formData.append('sizeid', 123);  //添加其他参数
+        formData.append('userid', userid);  //添加其他参数
+        // if(formData.file==null||formData.file=="")
+        // {
+        //     layer.alert("请选择需要上传的文件！");
+        //     return;
+        // }
+        $.ajax({
+            url: prefix+'/User/uploadface',
+            type: 'POST',
+            cache: false, //上传文件不需要缓存
+            data: formData,
+            processData: false, // 告诉jQuery不要去处理发送的数据
+            contentType: false, // 告诉jQuery不要去设置Content-Type请求头
+            success: function (data) {
+                var index=parent.layer.getFrameIndex(window.name);
+                layer.msg( data.message, function(){
+                    if(data.code>0)
+                    {
+                        parent.layer.close(index);
+                        parent.location.reload();
+                    }
+
+                });
+            },
+        })
+    });
+    var ctx = [[@{/}]];
+</script>
+</html>
