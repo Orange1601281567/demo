@@ -10,7 +10,7 @@ public class DemoApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(DemoApplication.class, args);
-        System.out.println("(♥◠‿◠)ﾉﾞ   启动成功   ლ(´ڡ`ლ)ﾞ  \n" +
+        System.out.println("(♥◠‿◠)ﾉﾞ   启动成功   ლ(´ڡ`ლ)ﾞ ! \n" +
                 "            疯狂源于梦想       \n" +
                 "            技术成就辉煌       \n" +
                 "            好学习 更快乐       \n" +
