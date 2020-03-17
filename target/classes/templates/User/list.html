@@ -1,0 +1,129 @@
+
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:shiro="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>index</title>
+    <link th:href="@{/layui/css/layui.css}" rel="stylesheet" />
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script type="text/javascript" th:src="@{/jquery/jquery-1.11.3.min.js}"></script>
+    <script type="text/javascript"  th:src="@{/js/bootstrap.min.js}"></script>
+    <script type="text/javascript"  th:src="@{/layui/layui.all.js}"></script>
+</head>
+<body>
+<div class="layui-inline" style="margin: 20px">
+    <input class="layui-input" name="userid" id="userid" autocomplete="off">
+</div>
+<button class="layui-btn"  onclick="search()">搜索</button>
+<div class="layui-inline">
+    <a class="layui-btn layui-btn-normal newsAdd_btn" onclick="addUser()">添加用户</a>
+</div>
+
+
+<!-- 表格  -->
+<table id="demo" lay-filter="test"></table>
+</body>
+<script th:inline="none">
+    //初始化用户数据
+    layui.use('table', function(){
+        var table = layui.table;
+        //第一个实例
+        table.render({
+            elem: '#demo'
+            ,id: 'test'	//表格的索引
+            ,url: '/demo/User/findAllUser' //数据接口
+            ,page: true
+            ,height:500
+            ,method: 'post' //默认：get请求
+            ,cols: [
+                [ //表头
+                {field: 'userid', title: '用户名'}
+                ,{field: 'name', title: '昵称'}
+                ,{field: 'sex', title: '性别'}
+                ,{field: 'email', title: '邮箱'}
+                ,{field: 'status', title: '状态'}
+                ,{field: 'phone', title: '电话'}
+                ,{field: 'type', title: '类型'}
+                , {fixed: 'right', width:200, align:'center', toolbar: '#barDemo'}
+                 ]
+            ]
+        });
+
+        //每行的删除和修改
+        table.on('tool(test)',function(obj){
+            var data = obj.data;
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            var tr = obj.tr; //获得当前行 tr 的DOM对象
+            if (layEvent === 'del') { //删除
+                layer.confirm('真的删除行么', function(index){
+                    obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                    layer.close(index);
+                    //向服务端发送删除指令
+                    $.ajax({
+                        type: 'POST',
+                        url: '/demo/User/del',
+                        data: {userid:data.userid},
+                        async: false,
+                        success: function (data) {
+                            layer.alert(data.message);
+                        }});
+                });
+            } else if (layEvent === 'edit') { //编辑
+                layer.open({
+                    type: 2,
+                    title:'修改用户信息',
+                    area : ['600px','500px'],
+                    content: ['/demo/User/edit?userid='+data.userid,'no']
+                });
+            }
+            else if (layEvent === 'assignment') { //编辑
+                $.ajax({
+                    type: 'POST',
+                    url: '/demo/Role/addRole',
+                    data: {userid:data.userid,rolename:"teacher"},
+                    async: false,
+                    success: function (data) {
+                        if(data>0)
+                        layer.alert("授权成功");
+                    },
+                    error:function (data) {
+                            layer.alert("授权失败,用户可能已有该权限");
+                    }
+                });
+            }
+        });
+
+
+    });
+
+    //用户查询
+    function search(){
+        var  userid=$("#userid").val();
+        //执行渲染
+        layui.table.reload('test',{
+            where: { //设定异步数据接口的额外参数，任意设
+                userid:userid
+            },page: {
+                curr: 1 //重新从第 1 页开始
+            }
+        });
+    }
+
+
+    //添加用户
+    function addUser(){
+        layer.open({
+            type: 2,
+            title:'添加用户',
+            area : ['600px','500px'],
+            content: ['/demo/User/add','no']
+        });
+    }
+</script>
+<script th:inline="none" type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="assignment" >授权</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit" >编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del" >删除</a>
+</script>
+</html>

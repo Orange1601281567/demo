@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>添加用户信息</title>
+    <link th:href="@{/layui/css/layui.css}" rel="stylesheet" />
+    <link th:href="@{/layui/css/modules/laydate/default/laydate.css}" rel="stylesheet" />
+    <link th:href="@{/layui/css/modules/layer/default/layer.css}" rel="stylesheet" />
+    <link th:href="@{/layui/css/modules/code.css}" rel="stylesheet" />
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script type="text/javascript" th:src="@{/jquery/jquery-1.11.3.min.js}"></script>
+    <script type="text/javascript"  th:src="@{/js/bootstrap.min.js}"></script>
+    <script type="text/javascript"  th:src="@{/layui/layui.js}"></script>
+    <script type="text/javascript"  th:src="@{/layui/lay/modules/form.js}"></script>
+    <script type="text/javascript"  th:src="@{/layui/lay/modules/layer.js}"></script>
+</head>
+<body >
+<div id="adduser" style="margin-top: 10px" >
+    <form class="layui-form">
+        <div class="layui-form-item">
+            <label class="layui-form-label">用户名</label>
+            <div class="layui-input-block">
+                <input type="text" id="userid" name="userid" required  lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">密  码</label>
+            <div class="layui-input-block">
+                <input type="password" id="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">昵  称</label>
+            <div class="layui-input-block">
+                <input type="text" id="name" name="name" required lay-verify="required" placeholder="请输入昵称" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">电  话</label>
+            <div class="layui-input-block">
+                <input type="text" id="phone" name="phone" required lay-verify="required" placeholder="请输入联系电话" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">邮  箱</label>
+            <div class="layui-input-block">
+                <input type="email" id="email" name="email" required lay-verify="required" placeholder="请输入邮箱" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">单选框</label>
+            <div class="layui-input-block">
+                <input type="radio" name="sex" value="男" title="男">
+                <input type="radio" name="sex" value="女" title="女" checked>
+            </div>
+        </div>
+    </form>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button  class="layui-btn"  onclick="register()">添加</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    function register() {
+        prefix=ctx;
+        var  userid=$("#userid").val();
+        var  pwd=$("#password").val();
+        var  name=$("#name").val();
+        var  phone=$("#phone").val();
+        var  email=$("#email").val();
+        var  sex= $("input[name='sex']:checked").val();
+        $.ajax({
+            type: 'POST',
+            url: prefix+'/User/addUser',
+            data: {userid:userid,pwd:pwd,name:name,phone:phone,email:email,sex:sex},
+            async: false,
+            success: function (data) {
+                var url=prefix+'/User/addUser';
+                layer.alert(url);
+                var index=parent.layer.getFrameIndex(window.name);
+                layer.msg( data.message, function(){
+                    if(data.code>0)
+                    {
+                        parent.layer.close(index);
+                        parent.location.reload();
+                    }
+
+                });
+            }});
+    }
+    var ctx = [[@{/}]];
+</script>
+</html>

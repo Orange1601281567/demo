@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.springframework.org/schema/jdbc">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Orange</title>
+    <link rel="stylesheet" href="layui/css/layui.css">
+</head>
+
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <a href="">
+            <div class="layui-logo">Orange题库后台管理系统</div>
+        </a>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <img th:src="${user.face}" class="layui-nav-img" onclick=changeImage()>
+            </li>
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    欢迎用户: <span th:text="${user.name}" style="color: #00F7DE"></span> </a>
+                <dl class="layui-nav-child">
+                    <dd>
+                        <a href="javascript:;"onclick="changePwd()">修改密码</a>
+                    </dd>
+                    <dd>
+                        <a href="javascript:;" onclick="edit()">修改资料</a>
+                    </dd>
+                    <dd>
+                        <a th:href="@{/logout}">安全退出</a>
+                    </dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree">
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">基本信息</a>
+                    <dl class="layui-nav-child">
+                        <dd class="layui-this">
+                            <a href="javascript:;" >基本信息</a>
+                        </dd>
+                    </dl>
+                </li>
+                <shiro:hasRole name="admin">
+                    <li class="layui-nav-item layui-nav-itemed">
+                        <a href="javascript:;">用户管理</a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a href="javascript:;" class="layTabPlus" th:tab_url="@{/User/list}">
+                                    <i class="layui-icon layui-icon-star"> </i>
+                                    用户信息
+                                </a>
+                            </dd>
+                            <dd>
+                                <a href="javascript:;" class="layTabPlus" th:tab_url="@{/User/online}">
+                                    <i class="layui-icon layui-icon-star"> </i>
+                                    在线用户
+                                </a>
+                            </dd>
+                            <dd>
+                                <a href="javascript:;" class="layTabPlus" th:tab_url="@{/Role/list}">
+                                    <i class="layui-icon layui-icon-star"> </i>
+                                    角色管理</a>
+                            </dd>
+<!--                            <dd>-->
+<!--                                <a href="javascript:;" class="layTabPlus" tab_url="https://gitee.com/Leytton/layTabPlus" tab_jump="true">-->
+<!--                                    <i class="layui-icon layui-icon-star"> </i>-->
+<!--                                    权限管理</a>-->
+<!--                            </dd>-->
+                        </dl>
+                    </li>
+                </shiro:hasRole>
+
+                <shiro:hasRole name="teacher">
+                <li class="layui-nav-item">
+                    <a href="javascript:;">题库信息</a>
+                    <dl class="layui-nav-child">
+                        <dd>
+                            <a href="javascript:;" class="layTabPlus" th:tab_url="@{/Test/list}">题库</a></dd>
+<!--                        <dd><a href="javascript:void(0);" class="layTabPlus" tab_url="https://blog.csdn.net/leytton">产品二</a></dd>-->
+                    </dl>
+                </li>
+                </shiro:hasRole>
+<!--                <li class="layui-nav-item layui-nav-itemed">-->
+<!--                    <a href="javascript:;">关于作者</a>-->
+<!--                    <dl class="layui-nav-child">-->
+<!--                        <dd><a href="javascript:void(0);" class="layTabPlus" th:tab_url="@{/index}">网站</a></dd>-->
+<!--                        <dd><a href="javascript:void(0);" class="layTabPlus" tab_url="https://blog.csdn.net/leytton">博客</a></dd>-->
+<!--                    </dl>-->
+<!--                </li>-->
+            </ul>
+        </div>
+    </div>
+
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <div class="layui-tab" lay-filter="demoTab" lay-allowClose="true">
+            <ul class="layui-tab-title">
+                <li class="layui-this noclose" lay-id='base_info'>基本信息</li>
+            </ul>
+            <div class="layui-tab-content" style="padding:0px;">
+                <div class="layui-tab-item layui-show">
+                    <div class="sysNotice col">
+                        <blockquote class="layui-elem-quote title">基本信息</blockquote>
+                        <table class="layui-table">
+                            <tbody>
+                            <tr>
+                                <td>用户名</td>
+                                <td  th:text="${user.userid}" id="userid"></td>
+                            </tr>
+                            <tr>
+                                <td>昵称</td>
+                                <td th:text="${user.name}"></td>
+                            </tr>
+                            <tr>
+                                <td>性别</td>
+                                <td th:text="${user.sex}"></td>
+                            </tr>
+                            <tr>
+                                <td>电话</td>
+                                <td th:text="${user.phone}"></td>
+                            </tr>
+                            <tr>
+                                <td>邮箱</td>
+                                <td th:text="${user.email}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-footer">
+        © orange题库系统 - by orange
+    </div>
+</div>
+
+
+
+<script type="text/javascript"  th:src="@{/layui/layui.all.js}"></script>
+<script>
+    var $ = layui.jquery;
+    var layer = layui.layer;
+    var element = layui.element;
+    var util = layui.util;
+    var table = layui.table;
+</script>
+<script type="text/javascript"  th:src="@{/js/layTabPlus.js}"></script>
+<script>
+    layTabPlus.init({
+        lay_filter: 'demoTab'
+    });
+
+    //修改密码
+    function changePwd() {
+        var userid= "[[${user.userid}]]";
+        layer.open({
+            type: 2,
+            title:'修改密码',
+            area : ['400px','400px'],
+            content: ['/demo/User/changePwd?userid='+userid,'no']
+        });
+    }
+    //修改个人信息
+    function edit() {
+        var userid= "[[${user.userid}]]";
+        layer.open({
+            type: 2,
+            title:'修改个人信息',
+            area : ['600px','500px'],
+            content: ['/demo/User/edit?userid='+userid,'no']
+        });
+    }
+    //修改头像
+    function changeImage() {
+        var userid= "[[${user.userid}]]";
+        var face="[[${user.face}]]";
+        layer.open({
+            type: 2,
+            title:'修改头像',
+            area : ['250px','250px'],
+            content: ['/demo/User/changeImage?userid='+userid+'&face='+face,'no']
+        });
+    }
+</script>
+</body>
+
+</html>
+<style>
+    .sysNotice .layui-table {
+        margin-top: 0;
+        border-left: 5px solid #e2e2e2;
+    }
+
+    .layui-elem-quote.title {
+        padding: 10px 15px;
+        margin-bottom: 0;
+    }
+
+    .sysNotice {
+        width: 75%;
+    }
+    .code{
+        color: #c7254e;
+        background-color: #f9f2f4;
+        border-radius: 2px;
+        padding: 4px 2px 0;
+    }
+</style>
