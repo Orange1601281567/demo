@@ -9,6 +9,8 @@ import com.example.demo.utils.UserRegisteAndLogin;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,6 +27,7 @@ import java.util.*;
 @Controller
 @RequestMapping("/User")
 @CrossOrigin
+@Api(description = "用户管理")
 public class UserController {
     @Autowired
     private UserService userService;
@@ -85,7 +88,7 @@ public class UserController {
         return a;
     }
 
-
+    @ApiOperation(value = "用户列表",notes = "查询所有已注册过的用户详细信息" )
     @PostMapping( "/findAllUser")
     @RequiresPermissions("user:list")
     @ResponseBody
