@@ -1,4 +1,4 @@
-package com.example.demo.problem.test.domain;
+package com.example.demo.problem.choose.domain;
 
 public class Test {
     private int id;

@@ -1,13 +1,13 @@
-package com.example.demo.problem.test.dao;
+package com.example.demo.problem.choose.service;
 
-import com.example.demo.problem.test.domain.Test;
+import com.example.demo.problem.choose.domain.Test;
 
 import java.util.List;
 
-public interface TestMapper {
+public interface TestService {
     List<Test> findTestById(int id);
-    List<Test> findAllTest(Test test);
     List<Test> Test(String subject);
+    List<Test> findAllTest(Test test);
     int addTest(Test test);
     int editTest(Test test);
     int delTest(int id);

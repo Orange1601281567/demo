@@ -77,14 +77,29 @@
                 </shiro:hasRole>
 
                 <shiro:hasRole name="teacher">
-                <li class="layui-nav-item">
-                    <a href="javascript:;">题库信息</a>
-                    <dl class="layui-nav-child">
-                        <dd>
-                            <a href="javascript:;" class="layTabPlus" th:tab_url="@{/Test/list}">题库</a></dd>
-<!--                        <dd><a href="javascript:void(0);" class="layTabPlus" tab_url="https://blog.csdn.net/leytton">产品二</a></dd>-->
-                    </dl>
-                </li>
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">题库信息</a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a href="javascript:;" class="layTabPlus" th:tab_url="@{/Test/list}">选择题</a>
+                            </dd>
+                            <dd>
+                                <a href="javascript:void(0);" class="layTabPlus" th:tab_url="@{/Completion/list}">填空题</a>
+                            </dd>
+                        </dl>
+                    </li>
+
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">选课信息</a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a href="javascript:;" class="layTabPlus" th:tab_url="@{/Curriculum/list}">课程信息</a>
+                            </dd>
+                            <dd>
+                                <a href="javascript:void(0);" class="layTabPlus" th:tab_url="@{/Grades/list}">班级信息</a>
+                            </dd>
+                        </dl>
+                    </li>
                 </shiro:hasRole>
 <!--                <li class="layui-nav-item layui-nav-itemed">-->
 <!--                    <a href="javascript:;">关于作者</a>-->

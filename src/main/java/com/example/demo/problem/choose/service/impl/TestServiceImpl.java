@@ -1,8 +1,8 @@
-package com.example.demo.problem.test.service.impl;
+package com.example.demo.problem.choose.service.impl;
 
-import com.example.demo.problem.test.dao.TestMapper;
-import com.example.demo.problem.test.domain.Test;
-import com.example.demo.problem.test.service.TestService;
+import com.example.demo.problem.choose.dao.TestMapper;
+import com.example.demo.problem.choose.domain.Test;
+import com.example.demo.problem.choose.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

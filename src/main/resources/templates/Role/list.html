@@ -16,9 +16,9 @@
     <input class="layui-input" name="userid" id="userid" autocomplete="off">
 </div>
 <button class="layui-btn"  onclick="search()">搜索</button>
-<!--<div class="layui-inline">-->
-<!--    <a class="layui-btn layui-btn-normal newsAdd_btn" onclick="addRole()">添加角色</a>-->
-<!--</div>-->
+<div class="layui-inline">
+    <a class="layui-btn layui-btn-normal newsAdd_btn" onclick="addRole()">添加角色</a>
+</div>
 
 
 <!-- 表格  -->
@@ -104,18 +104,18 @@
     }
 
 
-    //添加用户
-    // function addRole(){
-    //     layer.open({
-    //         type: 2,
-    //         title:'添加角色',
-    //         area : ['400px','300px'],
-    //         content: ['/demo/Role/add','no']
-    // });
-    // }
+    // 添加用户
+    function addRole(){
+        layer.open({
+            type: 2,
+            title:'添加角色',
+            area : ['400px','300px'],
+            content: ['/demo/Role/add','no']
+    });
+    }
 </script>
 <script th:inline="none" type="text/html" id="barDemo">
-<!--    <a class="layui-btn layui-btn-xs" lay-event="edit" >编辑</a>-->
+    <a class="layui-btn layui-btn-xs" lay-event="edit" >编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del" >删除</a>
 </script>
 </html>

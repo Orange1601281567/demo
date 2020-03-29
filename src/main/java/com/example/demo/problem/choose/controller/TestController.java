@@ -1,7 +1,7 @@
-package com.example.demo.problem.test.controller;
+package com.example.demo.problem.choose.controller;
 
-import com.example.demo.problem.test.domain.Test;
-import com.example.demo.problem.test.service.TestService;
+import com.example.demo.problem.choose.domain.Test;
+import com.example.demo.problem.choose.service.TestService;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;

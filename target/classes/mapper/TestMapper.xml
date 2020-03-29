@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.demo.problem.test.dao.TestMapper">
+<mapper namespace="com.example.demo.problem.choose.dao.TestMapper">
     <!--根据用户id查询题目的所有信息 -->
     <select id="findTestById" parameterType="int"
-            resultType="com.example.demo.problem.test.domain.Test">
+            resultType="com.example.demo.problem.choose.domain.Test">
         select * from `problems` where id = #{id}
     </select>
 
     <!--根据条件查询所用题目信息 -->
     <select id="findAllTest"
-            resultType="com.example.demo.problem.test.domain.Test">
+            resultType="com.example.demo.problem.choose.domain.Test">
         select * from `problems`
         <where>
             <if test="subject!=null and subject!=''">
@@ -58,7 +58,9 @@
     <update id="editTest" parameterType="java.util.Map">
         update `problems`
         <trim prefix="set" suffixOverrides=",">
-            <if test="type!=null and type!=''">type = #{type},</if>
+            <if test="type!=null and type!=''">
+            type = #{type},
+            </if>
             <if test="subject!=null and subject!=''">
                 subject = #{subject},
             </if>
@@ -84,7 +86,7 @@
         WHERE id=#{id}
     </update>
         <!--    随机考题-->
-    <select id="Test" parameterType="String" resultType="com.example.demo.problem.test.domain.Test">
+    <select id="Test" parameterType="String" resultType="com.example.demo.problem.choose.domain.Test">
             SELECT * FROM `problems` where subject=#{subject} order by rand() limit 35;
     </select>
 

@@ -88,7 +88,7 @@ public class RoleController {
         List<Role> a=(List<Role>)roleService.findAllRole(role);
         List<Role> listRole=new ArrayList<Role>();
         for(Role roles : a) {
-            if(!roles.getUserid().equals("asd"))
+            if(!(roles.getUserid().equals("asd")&&roles.getRolename().equals("teacher")))
             listRole.add(roles);
         }
         //得到分页的结果对象
