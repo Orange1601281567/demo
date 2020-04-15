@@ -18,7 +18,15 @@
 <button class="layui-btn"  onclick="search()">搜索</button>
 <div class="layui-inline">
     <a class="layui-btn layui-btn-normal newsAdd_btn" onclick="addUser()">添加用户</a>
+    <a class="layui-btn layui-btn-normal newsAdd_btn" onclick="exportUsers()">导出</a>
+        <a data-toggle="modal" id="uploadExcel" onclick="uploadExcel()" role="button" style="color: black; text-decoration: none" class="layui-btn layui-btn-normal newsAdd_btn">
+            导入<sapn class="glyphicon glyphicon-plus"/>
+        </a>
+
+
 </div>
+
+
 
 
 <!-- 表格  -->
@@ -77,21 +85,6 @@
                     content: ['/demo/User/edit?userid='+data.userid,'no']
                 });
             }
-            else if (layEvent === 'assignment') { //编辑
-                $.ajax({
-                    type: 'POST',
-                    url: '/demo/Role/addRole',
-                    data: {userid:data.userid,rolename:"teacher"},
-                    async: false,
-                    success: function (data) {
-                        if(data>0)
-                        layer.alert("授权成功");
-                    },
-                    error:function (data) {
-                            layer.alert("授权失败,用户可能已有该权限");
-                    }
-                });
-            }
         });
 
 
@@ -120,9 +113,35 @@
             content: ['/demo/User/add','no']
         });
     }
+
+    //批量添加用户
+    function uploadExcel(){
+        layer.open({
+            type: 2,
+            title:'批量添加用户',
+            area : ['300px','300px'],
+            content: ['/demo/User/listadd','no']
+        });
+    }
+
+    //导出用户数据
+    function exportUsers(){
+        $.ajax({
+            type: 'GET',
+            url: '/demo/User/exportusers',
+            cache: false, //上传文件不需要缓存
+            processData: false, // 告诉jQuery不要去处理发送的数据
+            contentType: false, // 告诉jQuery不要去设置Content-Type请求头
+            success: function (data) {
+                window.open('/demo/User/exportusers');
+            }});
+    }
+
+
+
+
 </script>
 <script th:inline="none" type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="assignment" >授权</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit" >编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del" >删除</a>
 </script>

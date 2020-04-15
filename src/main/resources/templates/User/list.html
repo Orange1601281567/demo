@@ -18,7 +18,15 @@
 <button class="layui-btn"  onclick="search()">搜索</button>
 <div class="layui-inline">
     <a class="layui-btn layui-btn-normal newsAdd_btn" onclick="addUser()">添加用户</a>
+    <a class="layui-btn layui-btn-normal newsAdd_btn" onclick="exportUsers()">导出</a>
+        <a data-toggle="modal" id="uploadExcel" onclick="uploadExcel()" role="button" style="color: black; text-decoration: none" class="layui-btn layui-btn-normal newsAdd_btn">
+            导入<sapn class="glyphicon glyphicon-plus"/>
+        </a>
+
+
 </div>
+
+
 
 
 <!-- 表格  -->
@@ -105,6 +113,33 @@
             content: ['/demo/User/add','no']
         });
     }
+
+    //批量添加用户
+    function uploadExcel(){
+        layer.open({
+            type: 2,
+            title:'批量添加用户',
+            area : ['300px','300px'],
+            content: ['/demo/User/listadd','no']
+        });
+    }
+
+    //导出用户数据
+    function exportUsers(){
+        $.ajax({
+            type: 'GET',
+            url: '/demo/User/exportusers',
+            cache: false, //上传文件不需要缓存
+            processData: false, // 告诉jQuery不要去处理发送的数据
+            contentType: false, // 告诉jQuery不要去设置Content-Type请求头
+            success: function (data) {
+                window.open('/demo/User/exportusers');
+            }});
+    }
+
+
+
+
 </script>
 <script th:inline="none" type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-xs" lay-event="edit" >编辑</a>

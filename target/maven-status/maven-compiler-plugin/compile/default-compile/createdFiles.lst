@@ -1,11 +1,9 @@
 com\example\demo\system\role\dao\RoleMapper.class
 com\example\demo\shiro\token\LoginType.class
 com\example\demo\system\users\service\UserService.class
-com\example\demo\problem\test\controller\TestController.class
 com\example\demo\shiro\session\OnlineSession.class
 com\example\demo\system\users\dao\UserMapper.class
 com\example\demo\utils\GifCaptcha.class
-com\example\demo\problem\test\domain\Test.class
 com\example\demo\problem\score\domain\ErrorTest.class
 com\example\demo\utils\LZWEncoder.class
 com\example\demo\DemoApplication.class
@@ -24,10 +22,7 @@ com\example\demo\shiro\token\EasyTypeToken.class
 com\example\demo\utils\AnimatedGifEncoder.class
 com\example\demo\controller\LoginController.class
 com\example\demo\shiro\session\OnlineSessionFactory.class
-com\example\demo\problem\test\dao\TestMapper.class
 com\example\demo\system\role\domain\Role.class
-com\example\demo\problem\test\service\TestService.class
-com\example\demo\problem\test\service\impl\TestServiceImpl.class
 com\example\demo\utils\UserRegisteAndLogin.class
 com\example\demo\domain\OrangeReturn.class
 com\example\demo\problem\score\service\impl\ScoreServiceImpl.class
