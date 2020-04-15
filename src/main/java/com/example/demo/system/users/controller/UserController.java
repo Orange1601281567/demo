@@ -161,16 +161,19 @@ public class UserController {
     public OrangeReturn uploadface(@RequestParam(value = "file", required = false) MultipartFile file, String userid,HttpServletRequest request ) throws IOException {
         String fileName = file.getOriginalFilename();//获取到上传文件的名字
             //存储图片的物理路径,即电脑存放图片的位置
-            String path =this.getClass().getResource("/").getPath()+"/static/load/";
+            String path ="C:\\load\\";;
             //新的图片名称
             String newFileName = UUID.randomUUID() +fileName.substring(fileName.lastIndexOf("."));
             //新图片
             File newFile = new File(path + newFileName);
             //将内存中的数据写入磁盘
+            if (!newFile.getParentFile().exists()) {
+                newFile.getParentFile().mkdirs();
+            }
             file.transferTo(newFile);
             User user1 = new User();
             user1.setUserid(userid);
-            user1.setFace("/load/"+newFileName);
+            user1.setFace(newFileName);
             return userService.uploadface(user1);
     }
 
