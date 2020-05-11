@@ -10,6 +10,7 @@ import com.alipay.api.response.AlipayUserInfoShareResponse;
 import com.example.demo.domain.OrangeReturn;
 import com.example.demo.shiro.session.ShiroSessionListener;
 import com.example.demo.shiro.token.EasyTypeToken;
+import com.example.demo.system.role.service.RoleService;
 import com.example.demo.system.users.domain.User;
 import com.example.demo.system.users.service.UserService;
 import com.example.demo.utils.MyProps;
@@ -32,6 +33,8 @@ import java.util.Collection;
 public class LoginController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private RoleService roleService;
 
     @Autowired
     private MyProps myProps;
@@ -49,11 +52,13 @@ public class LoginController {
 
     @GetMapping("/index")
     public String index(ModelMap mmap) {
-        ShiroSessionListener sessionListener = new ShiroSessionListener();
-        System.out.println(sessionListener.getSessionCount());
+//        ShiroSessionListener sessionListener = new ShiroSessionListener();
+//        System.out.println(sessionListener.getSessionCount());//获取当前在线人数
         Subject subject = SecurityUtils.getSubject();
         User user1= (User)subject.getPrincipal();
         User user=(User)userService.findUserByID(user1.getUserid()).getObj();
+        int role= roleService.findRoleByUserid(user.getUserid()).get(0).getId();
+        user.setRole(role);
         mmap.put("user",user);
         return "index";
     }
@@ -138,47 +143,60 @@ public class LoginController {
         return "test";
     }
 
-
+    public static int  a=1;
     @ResponseBody
     @PostMapping("/login")
     public OrangeReturn login(String userid, String pwd,String captchaCode) {
+
         OrangeReturn back=new OrangeReturn();
-        if(userid==""||userid==null){
-            back.setMessage("用户名不能为空");
-            back.setCode("0");
-        }
-        if(pwd==""||pwd==null){
-            back.setMessage("密码不能为空");
-            back.setCode("0");
-        }
-        if(captchaCode==""||captchaCode==null){
-            back.setMessage("验证码不能为空");
-            back.setCode("0");
-        }
-        Session session = SecurityUtils.getSubject().getSession();
-        String captchaWord = (String) session.getAttribute("captchaWord");
-        if(!captchaCode.equals(captchaWord))
+        if(captchaCode==null)
         {
-            back.setMessage("验证码错误");
-            back.setCode("0");
-        }
-        else {
-        try {
             Subject subject = SecurityUtils.getSubject();
             EasyTypeToken token = new EasyTypeToken(userid, pwd);
             subject.login(token);
-            back.setMessage("登陆成功");
-            back.setCode("1");
-        }catch (IncorrectCredentialsException ice){
-            back.setMessage("密码错误");
-            back.setCode("0");
-        }catch (UnknownAccountException uae) {
-            back.setMessage("用户名错误");
-            back.setCode("0");
-        }catch (ExcessiveAttemptsException eae) {
-            back.setMessage("未知错误");
-            back.setCode("0");
-        }}
+            a++;
+        }
+        else {
+            if(userid==""||userid==null){
+                back.setMessage("用户名不能为空");
+                back.setCode("0");
+            }
+            if(pwd==""||pwd==null){
+                back.setMessage("密码不能为空");
+                back.setCode("0");
+            }
+            if(captchaCode==""||captchaCode==null){
+                back.setMessage("验证码不能为空");
+                back.setCode("0");
+            }
+            Session session = SecurityUtils.getSubject().getSession();
+            String captchaWord = (String) session.getAttribute("captchaWord");
+            if(!captchaCode.equals(captchaWord))
+            {
+                back.setMessage("验证码错误");
+                back.setCode("0");
+            }
+            else {
+                try {
+                    Subject subject = SecurityUtils.getSubject();
+                    EasyTypeToken token = new EasyTypeToken(userid, pwd);
+                    subject.login(token);
+                    back.setMessage("登陆成功");
+                    back.setCode("1");
+                }catch (IncorrectCredentialsException ice){
+                    back.setMessage("密码错误");
+                    back.setCode("0");
+                }catch (UnknownAccountException uae) {
+                    back.setMessage("用户名错误");
+                    back.setCode("0");
+                }catch (ExcessiveAttemptsException eae) {
+                    back.setMessage("未知错误");
+                    back.setCode("0");
+                }}
+
+        }
         return back;
     }
+
+
 }

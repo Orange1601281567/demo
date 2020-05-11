@@ -107,7 +107,6 @@ public  class ShiroConfig {
         //这个参数是cookie的名称
         SimpleCookie simpleCookie = new SimpleCookie("sid");
         //setcookie的httponly属性如果设为true的话，会增加对xss防护的安全系数。它有以下特点：
-
         //setcookie()的第七个参数
         //设为true后，只能通过http访问，javascript无法访问
         //防止xss读取cookie
@@ -176,6 +175,7 @@ public  class ShiroConfig {
         filterChain.put("/js/**", "anon");
         filterChain.put("/layui/**", "anon");
         filterChain.put("/../**", "authc");
+//        filterChain.put("/**", "authc");
         filterChain.put("/", "authc");
         filterChain.put("/**/index", "authc");
         filterChain.put("/check", "anon");

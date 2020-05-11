@@ -47,12 +47,23 @@ public class User implements Serializable {
     @ApiModelProperty(value = "用户电话")
     private String phone = null;
 
+    @ApiModelProperty(value = "用户角色id")
+    private int role;
+
     @ApiModelProperty(value = "用户类型")
     private String type = null;
     //第三方openid
     private String openid=null;
     //盐
     private String salt=null;
+
+    public int getRole() {
+        return role;
+    }
+
+    public void setRole(int role) {
+        this.role = role;
+    }
 
     public String getSalt() {
         return salt;
