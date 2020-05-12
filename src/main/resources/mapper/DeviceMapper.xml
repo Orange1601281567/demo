@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.Menu.dao.DeviceDao">
+
+    <resultMap id="Device" type="com.example.demo.domain.Device" >
+        <result column="device_id" property="deviceId" />
+        <result column="device_name" property="deviceName" />
+        <result column="device_parameters" property="deviceParameters" />
+        <result column="device_specification" property="deviceSpecification" />
+        <result column="device_price" property="devicePrice" />
+        <result column="device_brand" property="deviceBrand" />
+    </resultMap>
+
+
+
+    <insert id="insert" parameterType="java.util.Map" >
+        INSERT INTO device_info (
+        `device_id`,
+         `device_name`,
+         `device_parameters`,
+         `device_specification`,
+         `device_price`,
+         `device_brand`,
+         `device_type`)
+        VALUES(
+            #{device.deviceId},
+            #{device.deviceName},
+            #{device.deviceParameters},
+            #{device.deviceSpecification},
+            #{device.devicePrice},
+            #{device.deviceBrand},
+            #{device.deviceType}
+        );
+    </insert>
+
+
+</mapper>
