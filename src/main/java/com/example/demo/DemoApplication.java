@@ -11,14 +11,14 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @MapperScan(basePackages = {"com.example.demo.*.*.dao","com.example.demo.*.dao"})
 @EnableSwagger2
 public class DemoApplication
-        extends SpringBootServletInitializer
+//        extends SpringBootServletInitializer
 {
 
-//    打成war包时使用
-    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-        return builder.sources(DemoApplication.class);
-    }
+////    打成war包时使用
+//    @Override
+//    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+//        return builder.sources(DemoApplication.class);
+//    }
 
     public static void main(String[] args) {
         SpringApplication.run(DemoApplication.class, args);
