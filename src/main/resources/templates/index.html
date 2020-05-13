@@ -100,7 +100,10 @@
         }
 
         function getAhtml(obj){
+            if(obj.href!="#")
             return  "<a href=\"javascript:;\"onclick=\"addTab('" + obj.title + "','" + obj.href + "')\" >" + obj.title + "</a>";
+            if(obj.href=="#")
+            return "<a href=\"javascript:;>"+ obj.title + "</a>";
         }
         var roleid="[[${user.role}]]";
         //动态菜单
@@ -111,13 +114,29 @@
             success: function(res) {
                 var html = "";
                 for(var i = 0; i < res.length; i++) {
+                    //遍历一级菜单
                     if (res[i].type ==1){
                         var strli ="<li class=\"layui-nav-item lay-unselect \" >";
                         strli = strli + "<a href=\"javascript:;\">" + res[i].title + "</a>";
                         for(var m=0;m<res.length;m++) {
-                            if(res[m].parentId==res[i].id){
+                            //遍历二级菜单
+                            if(res[m].parentId==res[i].id&&res[m].type ==2){
                                 strli = strli + "<dl class=\"layui-nav-child\" >";
-                                strli = strli + "<dd>"+getAhtml(res[m])+"</dd>";
+                                //当不存在三级菜单
+                                if(res[m].href!="#"){
+                                    strli = strli + "<dd>"+getAhtml(res[m]);
+                                }
+                                //当存在三级菜单
+                                if(res[m].href=="#"){
+                                    strli=strli + "<dd><a href=\"javascript:;\">" + res[m].title + "</a><ol class=\"layui-nav-child layui-bg-blue\">";
+                                    for(var t=0;t<res.length;t++){
+                                        if(res[t].parentId==res[m].id&&res[t].type ==3){
+                                            strli = strli + "<li>"+getAhtml(res[t])+"</li>";
+                                        }
+                                    }
+                                    strli=strli + "</ol>";
+                                }
+                                strli = strli+"</dd>"
                                 strli = strli + "</dl>";
                             }
                         }

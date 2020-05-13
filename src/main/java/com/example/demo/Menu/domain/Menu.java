@@ -49,7 +49,7 @@ public class Menu implements Serializable {
     /**
     * 菜单类型
     */
-    private String type;
+    private int type;
 
     /**
     * 创建时间
@@ -125,11 +125,11 @@ public class Menu implements Serializable {
         this.icon = icon;
     }
 
-    public String getType() {
+    public int getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(int type) {
         this.type = type;
     }
 

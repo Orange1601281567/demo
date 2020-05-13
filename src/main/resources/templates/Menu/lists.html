@@ -111,7 +111,8 @@
 
 
         function complain(d){//操作中显示的内容
-            if(d.parentId!=0){
+            //第三级目录没有子菜单
+            if(d.type==3){
                 return [
                     '<a class="operation" lay-event="edit" href="javascript:void(0)" onclick="editDepartment(\''+ d.id + '\')" title="编辑">',
                     '<i class="layui-icon layui-icon-edit"></i></a>',
@@ -131,18 +132,18 @@
             }
 
         }
-        //监听工具条
-        table.on('tool(permissionTable)', function (obj) {
-            var data = obj.data;
-            var layEvent = obj.event;
-            if(data.permissionName!=null){
-                if (layEvent === 'del') {
-                    layer.msg('删除' + data.id);
-                } else if (layEvent === 'edit') {
-                    layer.msg('修改' + data.id);
-                }
-            }
-        });
+        // //监听工具条
+        // table.on('tool(permissionTable)', function (obj) {
+        //     var data = obj.data;
+        //     var layEvent = obj.event;
+        //     if(data.permissionName!=null){
+        //         if (layEvent === 'del') {
+        //             layer.msg('删除' + data.id);
+        //         } else if (layEvent === 'edit') {
+        //             layer.msg('修改' + data.id);
+        //         }
+        //     }
+        // });
     });
 
     function delDepartment(obj){
@@ -172,7 +173,7 @@
         layer.open({
             type: 2,
             title:'添加子按钮信息',
-            area : ['450px','350px'],
+            area : ['550px','350px'],
             content: [prefix+'/Menu/add?menuid='+obj,'no']
         });
     };

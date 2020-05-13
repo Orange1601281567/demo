@@ -81,7 +81,7 @@
             async: false,
             success: function (data) {
                 var index=parent.layer.getFrameIndex(window.name);
-                layer.msg( data.message, function(){
+                layer.msg( "修改成功", function(){
                     if(data.code>0)
                     {
                         parent.layer.close(index);

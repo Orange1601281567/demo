@@ -43,8 +43,15 @@ public class MenuController {
     }
 
     @GetMapping(value = "/add")
-    public String add(int menuid , Model model) {
-        model.addAttribute("menuid",menuid);
+    public String add(int menuid , ModelMap testmeg) {
+        Menu menu=new Menu();
+        if(menuid==0){
+            menu.setId(0);
+            menu.setType(0);
+        }else{
+            menu=menuService.load(menuid);
+        }
+        testmeg.put("menu",menu);
         return prefix+"/add";
     }
 
@@ -62,15 +69,6 @@ public class MenuController {
     @PostMapping("/insert")
     @ResponseBody
     public ReturnT<String> insert(Menu menu){
-        menu.setType("1");
-        if(menu.getHref()==null)
-        {
-            menu.setHref("#");
-        }
-        if(menu.getId()!=0) {
-            menu.setType("2");
-            menu.setParentId(menu.getId());
-        }
         menu.setId(menuService.List(1).size() + 1);
         return menuService.insert(menu);
     }
