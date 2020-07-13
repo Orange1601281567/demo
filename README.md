@@ -7,7 +7,7 @@
 layui springboot shiro
 
 ## 在线预览
-线上地址http://47.102.211.231:8080/demo/login(已自动部署)<br>
+线上地址http://47.102.211.231:8080/demo/login(已自动部署!)<br>
 用户名: asd<br>
 密  码: asd<br>
 
