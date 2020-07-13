@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.Menu.dao.MenuDao">
+
+    <resultMap id="Menu" type="com.example.demo.Menu.domain.Menu" >
+        <result column="id" property="id" />
+        <result column="title" property="title" />
+        <result column="href" property="href" />
+        <result column="parent_id" property="parentId" />
+        <result column="order" property="order" />
+        <result column="icon" property="icon" />
+        <result column="type" property="type" />
+        <result column="addtime" property="addtime" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        `id`,
+        `title`,
+        `href`,
+        `parent_id`,
+        `order`,
+        `icon`,
+        `type`,
+        `addtime`
+    </sql>
+
+    <insert id="insert" parameterType="java.util.Map" >
+        INSERT INTO menu (
+            `id`,
+            `title`,
+            `href`,
+            `parent_id`,
+            `order`,
+            `icon`,
+            `type`,
+            `addtime`
+        )
+        VALUES(
+            #{menu.id},
+            #{menu.title},
+            #{menu.href},
+            #{menu.parentId},
+            #{menu.order},
+            '#',
+            #{menu.type},
+            now()
+        );
+        insert into menu_role (menuid,roleid) value (#{menu.id},1)
+    </insert>
+
+    <delete id="delete" parameterType="java.util.Map" >
+        DELETE FROM menu
+        WHERE `id` = #{id};
+        DELETE FROM menu_role
+        WHERE `menuid` = #{id};
+    </delete>
+
+    <update id="update" parameterType="java.util.Map" >
+        UPDATE menu
+        SET
+            title = #{menu.title},
+            href = #{menu.href},
+            `order` = #{menu.order}
+        WHERE `id` = #{menu.id}
+    </update>
+
+
+    <select id="load" parameterType="java.util.Map" resultMap="Menu">
+        SELECT <include refid="Base_Column_List" />
+        FROM menu
+        WHERE `id` = #{id}
+    </select>
+
+    <select id="pageList" parameterType="java.util.Map" resultMap="Menu">
+        SELECT <include refid="Base_Column_List" />
+        FROM menu
+        order by `order`
+        LIMIT #{offset}, #{pagesize}
+    </select>
+
+    <select id="List" parameterType="java.util.Map" resultMap="Menu">
+        SELECT menu.id as id, `title`,`href`,`parent_id`,`order`,`icon`,`type`,`addtime`
+        FROM menu join  menu_role on menu.id=menu_role.menuid
+        where  menu_role.roleid=#{role}
+         order by `order`
+    </select>
+
+    <select id="pageListCount" parameterType="java.util.Map" resultType="int">
+        SELECT count(1)
+        FROM menu
+    </select>
+
+</mapper>
